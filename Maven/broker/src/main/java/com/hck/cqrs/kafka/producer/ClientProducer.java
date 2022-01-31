@@ -6,7 +6,6 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 public class ClientProducer {
 
@@ -22,7 +21,7 @@ public class ClientProducer {
                 "org.apache.kafka.common.serialization.StringSerializer");
 
 
-        try (Producer<String, String> producer = new KafkaProducer<String, String>(configProps);) {
+        try (Producer<String, String> producer = new KafkaProducer<>(configProps);) {
             //setting test massive messages
             for (int i=0; i < 7000; i++) {
                 producer.send(new ProducerRecord<String, String>("hck-topic", String.valueOf(i), "asd-test-foo"));
