@@ -10,6 +10,7 @@ public class ClientProducer {
 
     public static void main(String[] args) {
 
+        // base properties
         Properties props=new Properties();
         props.put("bootstrap.servers","localhost:9092");
         props.put("acks","all");
@@ -20,9 +21,12 @@ public class ClientProducer {
 
 
         try (Producer<String, String> producer = new KafkaProducer<String, String>(props);) {
-            producer.send(new ProducerRecord<String, String>("hck-topic", "test", "asd-test-foo"));
+            //setting test massive messages
+            for (int i=0; i < 7000; i++) {
+                producer.send(new ProducerRecord<String, String>("hck-topic", String.valueOf(i), "asd-test-foo"));
+            }
+            producer.flush();
         }
-
     }
 
 }
