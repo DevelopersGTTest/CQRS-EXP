@@ -26,20 +26,20 @@ public class ThreadClientConsumer extends Thread {
     @Override
     public void run() {
         consumer.subscribe(Arrays.asList("hck-topic"));
-        while (!nextVal.get()) {
-            try {
+        try {
+            while (!nextVal.get()) {
                 ConsumerRecords<String, Object> consumerRecords = consumer.poll(Duration.ofMillis(100));
                 for(ConsumerRecord<String, Object> consumerRecord: consumerRecords) {
                     log.info("Offset = {}, Key = {}, Value = {}",
                             consumerRecord.offset(), consumerRecord.key(), consumerRecord.value());
                 }
-            } catch (WakeupException e) {
-                if(!nextVal.get()) {
-                    throw  e;
-                }
-            } finally {
-                consumer.close();
             }
+        } catch (WakeupException e) {
+            if(!nextVal.get()) {
+                throw  e;
+            }
+        } finally {
+            consumer.close();
         }
         super.run();
     }
