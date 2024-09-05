@@ -1,0 +1,6 @@
+C:\github\CQRS-EXP\Maven\broker\src\main\java\com\hck\cqrs\kafka\thread\ThreadClientConsumer.java
+C:\github\CQRS-EXP\Maven\broker\src\main\java\com\hck\cqrs\kafka\transactional\TransactionalConsumer.java
+C:\github\CQRS-EXP\Maven\broker\src\main\java\com\hck\cqrs\kafka\consumer\ClientConsumer.java
+C:\github\CQRS-EXP\Maven\broker\src\main\java\com\hck\cqrs\kafka\transactional\TransactionalProducer.java
+C:\github\CQRS-EXP\Maven\broker\src\main\java\com\hck\cqrs\kafka\producer\ClientProducer.java
+C:\github\CQRS-EXP\Maven\broker\src\main\java\com\hck\cqrs\kafka\thread\ThreadPoolClientConsumer.java
