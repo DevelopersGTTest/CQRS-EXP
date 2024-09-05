@@ -20,14 +20,9 @@ public class ClientProducer {
         configProps.put("value.serializer",
                 "org.apache.kafka.common.serialization.StringSerializer");
 
-
-        try (Producer<String, String> producer = new KafkaProducer<>(configProps);) {
-            //setting test massive messages
-            for (int i=0; i < 7000; i++) {
-                producer.send(new ProducerRecord<String, String>("hck-topic", String.valueOf(i), "asd-test-foo"));
-            }
-            producer.flush();
-        }
+        // support for generic types
+        AsyncSendingProcess instance = new AsyncSendingProcess();
+        instance.sendMessage(configProps);
     }
 
 }

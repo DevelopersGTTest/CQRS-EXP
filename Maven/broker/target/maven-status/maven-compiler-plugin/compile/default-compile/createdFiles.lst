@@ -1,6 +1,8 @@
+com\hck\cqrs\kafka\producer\AsyncSendingProcess.class
 com\hck\cqrs\kafka\producer\ClientProducer.class
-com\hck\cqrs\kafka\thread\ThreadPoolClientConsumer.class
 com\hck\cqrs\kafka\transactional\TransactionalProducer.class
-com\hck\cqrs\kafka\transactional\TransactionalConsumer.class
 com\hck\cqrs\kafka\consumer\ClientConsumer.class
+com\hck\cqrs\kafka\thread\ThreadPoolClientConsumer.class
+com\hck\cqrs\kafka\producer\IMessageBase.class
+com\hck\cqrs\kafka\transactional\TransactionalConsumer.class
 com\hck\cqrs\kafka\thread\ThreadClientConsumer.class
