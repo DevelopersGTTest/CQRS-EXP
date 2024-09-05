@@ -9,8 +9,6 @@ public class ClientCallbackProducer {
             e.printStackTrace();
         }
     }
-
-    // Synchronous Message Sending
     try {
         Object p  = p.send(record).get();
     } catch (Exception e) {
