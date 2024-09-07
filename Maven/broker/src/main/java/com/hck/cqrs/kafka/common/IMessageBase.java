@@ -1,4 +1,4 @@
-package com.hck.cqrs.kafka.producer;
+package com.hck.cqrs.kafka.common;
 
 public interface IMessageBase<T> {
 

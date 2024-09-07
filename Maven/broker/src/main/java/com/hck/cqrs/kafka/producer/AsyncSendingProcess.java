@@ -1,5 +1,6 @@
 package com.hck.cqrs.kafka.producer;
 
+import com.hck.cqrs.kafka.common.IMessageBase;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;

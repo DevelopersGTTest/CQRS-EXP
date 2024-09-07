@@ -1,5 +1,6 @@
 package com.hck.cqrs.kafka.transactional;
 
+import com.hck.cqrs.kafka.common.IMessageBase;
 import com.hck.cqrs.kafka.consumer.ClientConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -10,9 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TransactionalProducer {
-
-    private static final Logger log = LoggerFactory.getLogger(TransactionalProducer.class);
+public class TransactionalProducer  {
 
     public static void main(String[] args) {
 
@@ -24,24 +23,10 @@ public class TransactionalProducer {
         configProps.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         configProps.put("value.serializer",  "org.apache.kafka.common.serialization.StringSerializer");
 
-        try (Producer<String, String> producer = new KafkaProducer<>(configProps);) {
-            try {
-                producer.initTransactions();
-                producer.beginTransaction();
-                for (int i=0; i < 7000; i++) {
-                    producer.send(new ProducerRecord<String, String>("hck-topic", String.valueOf(i), "asd-test-foo"));
+        //sample of transactional
+        TransactionalMessageProcess transactionalMessageProcess = new TransactionalMessageProcess();
+        transactionalMessageProcess.sendMessage(configProps);
 
-                    if (i == 200 ) { // simulate crash case
-                        throw new Exception("Unexpected error");
-                    }
-                }
-                producer.commitTransaction();
-                producer.flush();
-            } catch (Exception e) {
-                log.error("Error ", e);
-                producer.abortTransaction();
-            }
-        }
     }
 
 }
