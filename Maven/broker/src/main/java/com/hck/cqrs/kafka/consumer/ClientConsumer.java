@@ -1,5 +1,6 @@
 package com.hck.cqrs.kafka.consumer;
 
+import com.hck.cqrs.kafka.common.KafkaConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -21,18 +22,8 @@ public class ClientConsumer {
 
     public static void main(String[] args) {
 
-        // initial properties..
-        Map<String, Object> configProps = new HashMap<>();
-        configProps.put("bootstrap.servers","localhost:9092");
-        configProps.put("group.id","hck-test-group");
-        configProps.put("enable.auto.commit","true");
-        configProps.put("auto.commit.interval.ms","1000");
-        configProps.put("key.deserializer",
-                "org.apache.kafka.common.serialization.StringDeserializer");
-        configProps.put("value.deserializer",
-                "org.apache.kafka.common.serialization.StringDeserializer");
-
-        try (KafkaConsumer<String, Object> consumer = new KafkaConsumer<>(configProps) ) {
+        try (KafkaConsumer<String, Object> consumer = new KafkaConsumer<>(
+                    KafkaConfig.getInstance().getConfig(false))) {
             consumer.subscribe(Arrays.asList("hck-topic"));
             while(nextVal.get()) {
                 ConsumerRecords<String, Object> consumerRecords = consumer.poll(Duration.ofMillis (1000));
