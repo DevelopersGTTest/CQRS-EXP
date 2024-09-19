@@ -15,7 +15,7 @@ public class AsyncSendingProcess implements IMessageBase<Map<String, Object>> {
         try (Producer<String, String> producer = new KafkaProducer<>(config);) {
             //setting test massive messages
             for (int i=0; i < 70000; i++) {
-                producer.send(new ProducerRecord<String, String>("hck-topic", String.valueOf(i), "asd-test-foo"));
+                producer.send(new ProducerRecord<String, String>("hck-topic", String.valueOf(i), "message-hck-" + i ));
             }
             producer.flush();
         }

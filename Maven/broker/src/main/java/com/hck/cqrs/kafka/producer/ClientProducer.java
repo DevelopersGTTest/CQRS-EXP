@@ -12,7 +12,7 @@ public class ClientProducer {
         // sample of producer
         instance.sendMessage(KafkaConfig
                 .getInstance()
-                .getProducerConfig());
+                .getProducerConfig(false));
     }
 
 }
