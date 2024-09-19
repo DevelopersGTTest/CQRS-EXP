@@ -23,7 +23,7 @@ public class ClientConsumer {
     public static void main(String[] args) {
 
         try (KafkaConsumer<String, Object> consumer = new KafkaConsumer<>(
-                    KafkaConfig.getInstance().getConfig(false))) {
+                    KafkaConfig.getInstance().getConsumerConfig())) {
             consumer.subscribe(Arrays.asList("hck-topic"));
             while(nextVal.get()) {
                 ConsumerRecords<String, Object> consumerRecords = consumer.poll(Duration.ofMillis (1000));
