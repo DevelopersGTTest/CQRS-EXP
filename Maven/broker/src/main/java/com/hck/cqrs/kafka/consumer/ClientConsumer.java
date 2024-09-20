@@ -28,8 +28,8 @@ public class ClientConsumer {
             while(nextVal.get()) {
                 ConsumerRecords<String, Object> consumerRecords = consumer.poll(Duration.ofMillis (1000));
                 for (ConsumerRecord<String, Object> consumerRecord : consumerRecords ) {
-                    log.info("Offset = {}, Key = {}, Value = {}",
-                            consumerRecord.offset(), consumerRecord.key(), consumerRecord.value()
+                    log.info("Offset = {}, Key = {}, Value = {}, Partition = {}",
+                            consumerRecord.offset(), consumerRecord.key(), consumerRecord.value(), consumerRecord.partition()
                     );
                 }
             }

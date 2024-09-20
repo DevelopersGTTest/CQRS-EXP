@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TransactionalConsumer {
 
@@ -20,7 +18,7 @@ public class TransactionalConsumer {
 
         try (KafkaConsumer<String, Object> consumer = new KafkaConsumer<>(KafkaConfig
                 .getInstance()
-                .getConfig(true))) {
+                .getConsumerConfig(true))) {
             consumer.subscribe(Arrays.asList("hck-topic"));
             while(true) {
                 ConsumerRecords<String, Object> consumerRecords = consumer.poll(Duration.ofMillis (1000));

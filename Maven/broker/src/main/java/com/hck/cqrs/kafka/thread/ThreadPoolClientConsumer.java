@@ -3,8 +3,6 @@ package com.hck.cqrs.kafka.thread;
 import com.hck.cqrs.kafka.common.KafkaConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,7 +14,7 @@ public class ThreadPoolClientConsumer {
         for(int j=0; j< 5; j++ ) {
             ThreadClientConsumer consumer =  new ThreadClientConsumer(new KafkaConsumer<>(KafkaConfig
                     .getInstance()
-                    .getConfig(false)));
+                    .getConsumerConfig(false)));
             executorService.execute(consumer);
         }
         while (!executorService.isTerminated());

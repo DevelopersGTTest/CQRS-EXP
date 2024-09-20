@@ -14,11 +14,6 @@ public class KafkaConfig {
         return instance;
     }
 
-    public Map<String, Object> getConfig(Boolean isTransactional) {
-        Map<String, Object> configProps = new HashMap<>();
-        return configProps;
-    }
-
     public Map<String, Object> getConsumerConfig(Boolean isTransactional) {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put("bootstrap.servers","localhost:9092");

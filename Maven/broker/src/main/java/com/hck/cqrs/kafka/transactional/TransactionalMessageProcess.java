@@ -16,13 +16,12 @@ public class TransactionalMessageProcess implements IMessageBase<Map<String, Obj
     public void sendMessage(Map<String, Object> config) {
         try (Producer<String, String> producer = new KafkaProducer<>(config);) {
             try {
-                // reduce a lack
                 producer.initTransactions();
                 producer.beginTransaction();
                 for (int i=0; i < 7000; i++) {
                     producer.send(new ProducerRecord<String, String>(
                             "hck-topic", String.valueOf(i),
-                            "asd-test-foo")
+                            "message-transactional-n-" + i )
                     );
 
                     if (i == 200 ) { // simulate crash case
