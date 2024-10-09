@@ -54,6 +54,7 @@ public class KafkaConfiguration {
     public ConcurrentKafkaListenerContainerFactory<String, String> listenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> listenerContainerFactory = new ConcurrentKafkaListenerContainerFactory<>();
         listenerContainerFactory.setConsumerFactory(consumerFactory());
+        listenerContainerFactory.setBatchListener(true); // config for allow batch processing
 
         return listenerContainerFactory;
     }
