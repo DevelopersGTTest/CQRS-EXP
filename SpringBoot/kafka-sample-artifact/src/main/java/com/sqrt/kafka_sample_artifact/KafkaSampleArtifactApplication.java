@@ -1,5 +1,7 @@
 package com.sqrt.kafka_sample_artifact;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +32,15 @@ public class KafkaSampleArtifactApplication implements CommandLineRunner {
 				"max.poll.interval.ms:4000", "max.poll.records:10"
 			}
 	)
-	public void listen(List<String> messages) {
+	public void listen(List<ConsumerRecord<String, String>> messages) {
 		log.info("start reading batch...");
-		for (String message : messages) {
-			log.info("message received = {}", message);
+		for (ConsumerRecord message : messages) {
+			log.info("message received, partition = {}, offset = {}, key = {}, value = {}",
+					message.partition(),
+					message.offset(),
+					message.key(),
+					message.value()
+			);
 		}
 
 		log.info("complete batch...");
@@ -47,7 +54,8 @@ public class KafkaSampleArtifactApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		for(int i =0; i < 100; i++) {
-			kafkaTemplate.send("hck-topic", String.format("sample message %d ", i));
+			kafkaTemplate
+					.send("hck-topic", String.valueOf("key-" + i), String.format("sample message %d ", i));
 		}
 
 		/**
