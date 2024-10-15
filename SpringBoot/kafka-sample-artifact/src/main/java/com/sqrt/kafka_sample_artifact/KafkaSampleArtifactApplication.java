@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 
@@ -22,9 +23,14 @@ public class KafkaSampleArtifactApplication implements CommandLineRunner {
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
 
+	@Autowired
+	private KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
+
 	private static Logger log = LoggerFactory.getLogger(KafkaSampleArtifactApplication.class);
 
 	@KafkaListener(
+			id = "hckId",
+			autoStartup = "false",
 			topics = "hck-topic",
 			containerFactory = "listenerContainerFactory",
 			groupId = "hck-group",
@@ -57,6 +63,12 @@ public class KafkaSampleArtifactApplication implements CommandLineRunner {
 			kafkaTemplate
 					.send("hck-topic", String.valueOf("key-" + i), String.format("sample message %d ", i));
 		}
+		log.info("waiting to start...");
+		Thread.sleep(5000);
+		log.info("starting...");
+		kafkaListenerEndpointRegistry.getListenerContainer("hckId").start();
+		log.info("stop...");
+		kafkaListenerEndpointRegistry.getListenerContainer("hckId").stop();
 
 		/**
 		 *
