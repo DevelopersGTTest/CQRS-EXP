@@ -1,5 +1,8 @@
 package com.sqrt.kafka_sample_artifact.configuration;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.prometheusmetrics.PrometheusConfig;
+import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -7,15 +10,14 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
-import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.*;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableScheduling
 public class KafkaConfiguration {
 
     public Map<String, Object> consumerProperties() {
@@ -45,6 +47,8 @@ public class KafkaConfiguration {
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
         DefaultKafkaProducerFactory<String, String> defaultKafkaProducerFactory = new DefaultKafkaProducerFactory<>(producerProperties());
+
+        defaultKafkaProducerFactory.addListener(new MicrometerProducerListener<String, String>(meterRegistry()));
         KafkaTemplate<String, String> kafkaTemplate = new KafkaTemplate<>(defaultKafkaProducerFactory);
 
         return kafkaTemplate;
@@ -58,4 +62,12 @@ public class KafkaConfiguration {
 
         return listenerContainerFactory;
     }
+
+    @Bean
+    public MeterRegistry meterRegistry() {
+        PrometheusMeterRegistry meterRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+        return meterRegistry;
+    }
+
+
 }
